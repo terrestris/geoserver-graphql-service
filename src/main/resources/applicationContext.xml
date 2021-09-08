@@ -1,0 +1,12 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+  <bean id="graphqlConfigurationLoader" class="de.terrestris.geoserver.graphql.ConfigurationLoader">
+    <constructor-arg ref="geoServer"/>
+  </bean>
+
+  <bean id="graphqlController" class="de.terrestris.geoserver.graphql.web.GraphqlController">
+    <property name="config" ref="graphqlConfigurationLoader"/>
+  </bean>
+
+</beans>
