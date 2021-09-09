@@ -12,9 +12,9 @@
   <name>Geoserver GraphQL service</name>
 
   <scm>
-    <url>https://github.com/terrestris/geoserver-graphql-store</url>
-    <connection>scm:git:git@github.com:terrestris/geoserver-graphql-store.git</connection>
-    <developerConnection>scm:git:git@github.com:terrestris/geoserver-graphql-store.git</developerConnection>
+    <url>https://github.com/terrestris/geoserver-graphql-service</url>
+    <connection>scm:git:git@github.com:terrestris/geoserver-graphql-service.git</connection>
+    <developerConnection>scm:git:git@github.com:terrestris/geoserver-graphql-service.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 
