@@ -36,9 +36,9 @@ public class ConfigurationLoader {
         try {
             SchemaParser schemaParser = new SchemaParser();
             List<FeatureTypeInfo> featureTypes = geoServer.getCatalog().getFeatureTypes();
-            TypeDefinitionRegistry typeDefinitionRegistry = schemaParser.parse(generateSchema(featureTypes));
+            String schema = generateSchema(featureTypes);
+            TypeDefinitionRegistry typeDefinitionRegistry = schemaParser.parse(schema);
 
-            generateSchema(featureTypes);
             RuntimeWiring wiring = generateWiring(featureTypes);
 
             SchemaGenerator schemaGenerator = new SchemaGenerator();

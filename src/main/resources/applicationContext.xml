@@ -9,4 +9,11 @@
     <property name="config" ref="graphqlConfigurationLoader"/>
   </bean>
 
+  <bean id="graphqlTab" class="org.geoserver.web.publish.LayerConfigurationPanelInfo">
+    <property name="id" value="graphql"/>
+    <property name="titleKey" value="GraphQL.page.title"/>
+    <property name="descriptionKey" value="GraphQL.page.description"/>
+    <property name="componentClass" value="de.terrestris.geoserver.graphql.web.GraphqlPanel"/>
+  </bean>
+
 </beans>
