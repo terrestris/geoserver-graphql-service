@@ -63,17 +63,23 @@ public class ConfigurationLoader {
             for (PropertyDescriptor attInfo : info.getFeatureType().getDescriptors()) {
                 String type = Classes.getShortName(attInfo.getType().getBinding());
                 switch (type) {
+                    default:
+                        LOG.warn("Unmapped type {} ", type);
                     case "Point":
                     case "LineString":
                     case "Polygon":
                     case "MultiPoint":
                     case "MultiLineString":
                     case "MultiPolygon":
+                    case "Timestamp":
                         continue;
                     case "Integer":
+                    case "Long":
                         type = "Int";
                         break;
                     case "Double":
+                    case "BigDecimal":
+                    case "Float":
                         type = "Float";
                         break;
                 }
