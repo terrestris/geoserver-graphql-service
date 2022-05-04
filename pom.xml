@@ -221,6 +221,26 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.0.0-M5</version>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <appendAssemblyId>false</appendAssemblyId>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
@@ -237,6 +257,10 @@
     <dependency>
       <groupId>com.graphql-java</groupId>
       <artifactId>graphql-java</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.graphql-java</groupId>
+      <artifactId>java-dataloader</artifactId>
     </dependency>
     <dependency>
       <groupId>org.geoserver</groupId>
@@ -272,6 +296,12 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
         <version>3.12.0</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.graphql-java</groupId>
+        <artifactId>java-dataloader</artifactId>
+        <version>3.1.0</version>
       </dependency>
       <dependency>
         <groupId>com.graphql-java</groupId>
@@ -282,16 +312,19 @@
         <groupId>org.geoserver</groupId>
         <artifactId>gs-main</artifactId>
         <version>${geoserver.version}</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.geoserver</groupId>
         <artifactId>gs-restconfig</artifactId>
         <version>${geoserver.version}</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.geoserver.web</groupId>
         <artifactId>gs-web-core</artifactId>
         <version>${geoserver.version}</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>javax.servlet</groupId>
