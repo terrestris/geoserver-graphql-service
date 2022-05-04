@@ -8,6 +8,7 @@ import graphql.schema.idl.TypeDefinitionRegistry;
 import org.geoserver.catalog.FeatureTypeInfo;
 import org.geoserver.config.GeoServer;
 import org.geotools.data.FeatureSource;
+import org.geotools.data.Query;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.FeatureIterator;
 import org.geotools.util.Classes;
@@ -52,14 +53,10 @@ public class ConfigurationLoader {
     }
 
     private String generateSchema(List<FeatureTypeInfo> featureTypes) throws IOException {
+        StringBuilder typesBuilder = new StringBuilder();
         StringBuilder sb = new StringBuilder();
-        sb.append("type Query {\n");
         for (FeatureTypeInfo info : featureTypes) {
-            sb.append(info.getName()).append(": [").append(info.getName()).append("]\n");
-        }
-        sb.append("}\n");
-        for (FeatureTypeInfo info : featureTypes) {
-            sb.append("\ntype ").append(info.getName()).append(" {\n");
+            StringBuilder attBuilder = new StringBuilder();
             for (PropertyDescriptor attInfo : info.getFeatureType().getDescriptors()) {
                 String type = Classes.getShortName(attInfo.getType().getBinding());
                 switch (type) {
@@ -72,6 +69,7 @@ public class ConfigurationLoader {
                     case "MultiLineString":
                     case "MultiPolygon":
                     case "Timestamp":
+                    case "Geometry":
                         continue;
                     case "Integer":
                     case "Long":
@@ -82,13 +80,26 @@ public class ConfigurationLoader {
                     case "Float":
                         type = "Float";
                         break;
+                    case "String":
+                        type = "String";
+                        break;
                 }
-                sb.append(attInfo.getName()).append(": ").append(type).append("\n");
+                attBuilder.append(attInfo.getName()).append(": ").append(type).append("\n");
             }
-            sb.append("}\n");
+            if (attBuilder.length() != 0) {
+                sb.append("\ntype ").append(info.getName()).append(" {\n");
+                sb.append(attBuilder);
+                sb.append("}\n");
+                typesBuilder.append(info.getName()).append(": [").append(info.getName()).append("]\n");
+            }
         }
-        LOG.debug("Generated graphql schema: {}", sb);
-        return sb.toString();
+        StringBuilder result = new StringBuilder();
+        result.append("type Query {\n");
+        result.append(typesBuilder);
+        result.append("}\n");
+        result.append(sb);
+        LOG.debug("Generated graphql schema: {}", result);
+        return result.toString();
     }
 
     private RuntimeWiring generateWiring(List<FeatureTypeInfo> featureTypes) throws IOException {
@@ -98,7 +109,9 @@ public class ConfigurationLoader {
             FeatureSource<? extends FeatureType, ? extends Feature> source = info.getFeatureSource(null, null);
 
             builder.type("Query", b -> b.dataFetcher(name, dataFetchingEnvironment -> {
-                FeatureCollection<? extends FeatureType, ? extends Feature> features = source.getFeatures();
+                Query query = new Query();
+                query.setMaxFeatures(100); // the limit doesn't seem to be applied to the DB query itself unfortunately
+                FeatureCollection<? extends FeatureType, ? extends Feature> features = source.getFeatures(query);
                 List<Map<String, Object>> result = new ArrayList<>();
                 FeatureIterator<? extends Feature> iterator = features.features();
                 while (iterator.hasNext()) {
