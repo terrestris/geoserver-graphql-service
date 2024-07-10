@@ -5,7 +5,7 @@
 
   <groupId>de.terrestris</groupId>
   <artifactId>geoserver-graphql-service</artifactId>
-  <version>0.3.0</version>
+  <version>0.3.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Geoserver GraphQL service</name>
@@ -14,7 +14,7 @@
     <url>https://github.com/terrestris/geoserver-graphql-service</url>
     <connection>scm:git:git@github.com:terrestris/geoserver-graphql-service.git</connection>
     <developerConnection>scm:git:git@github.com:terrestris/geoserver-graphql-service.git</developerConnection>
-    <tag>v0.3.0</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <repositories>
