@@ -1,0 +1,35 @@
+name: Build and check doc generation
+
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout sources 🔰
+      uses: actions/checkout@v4
+
+    - name: Set up Java 17 ☕♨️
+      uses: actions/setup-java@v4.2.1
+      with:
+        distribution: temurin
+        java-version: 17
+        java-package: jdk
+        architecture: x64
+
+    - name: Handle caching of maven repository 💾
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
+    - name: Clean and build project 🧽 + 🏗️
+      run: mvn -B clean install
+
+    - name: Build documentation 📖
+      run: mvn -B -P reporting surefire-report:report site
+
+    - name: Analyse code and publish to SonarQube 📊
+      run: mvn -B -Dsonar.password=${{ secrets.SONAR_PASSWORD }} sonar:sonar

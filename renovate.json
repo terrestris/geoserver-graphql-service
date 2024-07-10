@@ -1,0 +1,7 @@
+{
+  "extends": [
+    "config:recommended"
+  ],
+  "automerge": true,
+  "dependencyDashboardAutoclose": false
+}
