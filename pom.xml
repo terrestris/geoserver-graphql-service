@@ -63,7 +63,7 @@
     <sonar.host.url>https://sq.terrestris.de</sonar.host.url>
     <sonar.login>terrestris</sonar.login>
     <sonar.sources>src/main/</sonar.sources>
-    <geoserver.version>2.19.2</geoserver.version>
+    <geoserver.version>2.25.2</geoserver.version>
   </properties>
 
   <profiles>
