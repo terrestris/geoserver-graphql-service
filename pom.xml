@@ -306,7 +306,7 @@
       <dependency>
         <groupId>com.graphql-java</groupId>
         <artifactId>graphql-java</artifactId>
-        <version>17.2</version>
+        <version>17.6</version>
       </dependency>
       <dependency>
         <groupId>org.geoserver</groupId>
